@@ -8,7 +8,8 @@ signal xp
 enum {
 	IDLE,
 	WANDER,
-	CHASE
+	CHASE,
+	attack
 }
 
 const ACCEL = 300
@@ -35,6 +36,7 @@ func _physics_process(delta):
 	
 	match state:
 		IDLE:
+			$Hitbox/CollisionShape2D.disabled = true
 			if global_position.distance_to(initial_position) > 50:
 				direction = global_position.direction_to(initial_position) * 50
 				direction = move_and_slide(direction)
@@ -45,16 +47,20 @@ func _physics_process(delta):
 				if $WanderTimer.time_left == 0:
 					$WanderTimer.start()
 		CHASE:
+			$Hitbox/CollisionShape2D.disabled = false
 			direction = position.direction_to(player.global_position) * FRICT * 3 * delta
 			$AnimatedSprite.flip_h = direction.x < 0
 			direction = move_and_slide(direction)
+			
 		WANDER:
+			$Hitbox/CollisionShape2D.disabled = true
 			wander_position = initial_position + Vector2(rand_range(-1, 1), rand_range(-1, 1))
 			direction = global_position.direction_to(wander_position) * 50
 			$AnimatedSprite.flip_h = direction.x < 0
 			direction = move_and_slide(direction)
 			state = IDLE
-
+		attack:
+			print("Attack")
 
 func _on_Hurtbox_area_entered(area):
 	$Hurtbox.health -= area.damage
@@ -77,7 +83,7 @@ func _on_Hurtbox_no_health():
 func _on_DeathAnimation_finished():
 	queue_free()
 
-
+# if player has entered the body chase but if exited return to idle 
 func _on_PlayerDetection_body_entered(body):
 	state = CHASE
 	player = body

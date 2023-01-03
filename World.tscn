@@ -1211,4 +1211,5 @@ position = Vector2( 272, 48 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
 autoplay = true
+
 [connection signal="health_changed" from="YSort/Player" to="." method="_on_Player_health_changed"]

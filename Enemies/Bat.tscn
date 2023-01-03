@@ -96,10 +96,10 @@ radius = 8.19308
 height = 4.58774
 
 [sub_resource type="CircleShape2D" id=19]
-radius = 85.4538
+radius = 25.0599
 
 [sub_resource type="CircleShape2D" id=20]
-radius = 4.70387
+radius = 4.24264
 
 [sub_resource type="Animation" id=22]
 resource_name = "Start"
@@ -163,15 +163,14 @@ position = Vector2( 0.0897484, -13.8207 )
 shape = SubResource( 18 )
 
 [node name="PlayerDetection" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+position = Vector2( 0, -17 )
 shape = SubResource( 19 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 6 )]
-visible = false
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
@@ -187,6 +186,7 @@ anims/Stop = SubResource( 23 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="no_health" from="Hurtbox" to="." method="_on_Hurtbox_no_health"]
 [connection signal="body_entered" from="PlayerDetection" to="." method="_on_PlayerDetection_body_entered"]
@@ -194,5 +194,4 @@ stream = ExtResource( 7 )
 [connection signal="timeout" from="WanderTimer" to="." method="_on_WanderTimer_timeout"]
 
 [editable path="Hurtbox"]
-
 [editable path="Hitbox"]
